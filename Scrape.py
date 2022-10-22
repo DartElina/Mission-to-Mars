@@ -16,7 +16,8 @@ def scrape_all():
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
+        "last_modified": dt.datetime.now(),
+        "hemispheres": mars_hemispheres(browser)
     }
     # Stop Webdriver and return data 
     browser.quit()
@@ -79,6 +80,72 @@ def mars_facts():
     df.set_index('Description', inplace=True)
         # create html codefor creating a table from a df
     return df.to_html()
+
+# hemisphere urls
+
+def mars_hemispheres(browser):
+
+    # 1. Use browser to visit the URL 
+    url = 'https://marshemispheres.com/'
+
+    browser.visit(url)
+
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+    # Convert the browser html to a soup object
+    html = browser.html
+
+    title_soup = soup(html, 'html.parser')
+
+    # Titles are on the first page so get them first using the 'h3' tag.
+    # The parent of each title element will be used to get the html page for the image.
+    title_elems = title_soup.find_all('h3')
+
+    # 3. Write code to retrieve the image urls and titles for each hemisphere.
+    for title_elem in title_elems:
+        
+        # If title == 'Back' we are done with the list of titles.
+        # Alternatively, we could use the parent to get the last href = '#'
+        # We also need to skip elements that have blank titles.
+        if title_elem.text == 'Back':
+            break
+        elif title_elem.text == '':
+            continue
+
+        # Get the html page to visit in order to find the image
+        image_url = title_elem.parent['href']
+        
+        # Save the title
+        image_title = title_elem.text
+
+        # Get the full path to the html page
+        image_url = f"{url}{image_url}"
+        
+        # Go to the url where the image info is located:
+        browser.visit(image_url)
+        
+        # Convert the new html page to a soup object
+        html = browser.html
+        image_soup = soup(html, 'html.parser')
+
+        # Get the 'a' tag where it's text = 'Sample':
+        image_url = image_soup.find('a', text='Sample').get('href')
+
+        # Get use the href to get the full url to the enhanced image:
+        image_url = f"{url}{image_url}"
+
+        # Create a key value pair in the hemisphere variable:
+        hemisphere = {'img_url': image_url, 'title': image_title}
+
+        # Add the hemisphere to the list of hemispheres:
+        hemisphere_image_urls.append(hemisphere)
+
+        # Navigate back to the beginning to get the next hemisphere title and image.
+        browser.back()
+   
+    # 4. Return the list that holds the dictionary of each image url and title.
+    return hemisphere_image_urls
 
 
 if __name__ == "__main__":
