@@ -12,13 +12,14 @@
     </div>
   </head>
   <body>
+    <body style="background-color: rgb(60, 5, 5)">
+      <h2 style="color: rgb(247, 245, 245)">
     <div class="container">
       <!-- Add Jumbotron to Header -->
-      <div class="jumbotron text-center">
+      <div style="background:transparent !important" class="jumbotron text-center">
         <h1>Mission to Mars</h1>
         <!-- Add a button to activate scraping script -->
         <p><a class="btn btn-danger btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
-        <small>***Must Click to Refresh Data***</small>
 
         <blockquote class="blockquote-reverse">
           <p><strong>"I would like to die on Mars. Just not on impact."</strong>
@@ -32,7 +33,7 @@
           <div class="media">
             <div class="media-body">
               <h2>Latest Mars News</h2>
-              <h4 class="media-heading">{{ mars.news_title }}</h4>
+              <h2 class="media-heading">{{ mars.news_title }}</h2>
               <p>{{ mars.news_paragraph }}</p>
             </div>
           </div>
@@ -63,7 +64,7 @@
       
 <!-- Section for Mars Hemispheres -->
 <div class="row" id="mars-hemispheres"></div>
-  <div class="jumbotron text-center">
+  <div style="background:transparent !important" class="jumbotron text-center">
   <h1>Mars Hemispheres</h1></div>
 
         </div>
