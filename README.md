@@ -1,9 +1,6 @@
 # Mission-to-Mars
 
-Templates Folder Contains Index file:
-- I changed the button from blue to red, and added small text beneath the button.
-- I added a block quote. 
-- And, I created a jumbotron to highlight the Mars Hemisphere heading above thehemispere images. 
+This flask app scrapes the internet for the newest articles and images of mars, then loads them onto the index.html
 
 
 
